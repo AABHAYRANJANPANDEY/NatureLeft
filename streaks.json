@@ -1,0 +1,30 @@
+{
+  "current_streak_days": 5,
+  "total_minutes_saved": 170,
+  "total_escapes_logged": 8,
+  "last_escape_date": "2026-10-11",
+  "recent_escapes": [
+    {
+      "timestamp": "06:28 PM \u2014 Today",
+      "phase": "The Golden Hour",
+      "minutes_reclaimed": 30,
+      "location": "Bengaluru, India",
+      "badge": "\ud83c\udf05 Golden Hour Legend",
+      "note": "Touched actual soil near banyan tree."
+    },
+    {
+      "timestamp": "Yesterday at Golden Hour",
+      "phase": "Golden Hour (Magic Hour)",
+      "minutes_reclaimed": 25,
+      "location": "Local Horizon",
+      "badge": "\ud83c\udf05 Golden Hour Witness"
+    },
+    {
+      "timestamp": "2 days ago at Blue Hour",
+      "phase": "The Blue Hour & Twilight",
+      "minutes_reclaimed": 20,
+      "location": "Local Horizon",
+      "badge": "\ud83c\udf0c Dusk Walker"
+    }
+  ]
+}
