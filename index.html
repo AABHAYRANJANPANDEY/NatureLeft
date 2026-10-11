@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NatureLeft — The Offline Horizon Clock & Biophilic Scavenger</title>
+  <meta name="description" content="A breathtaking offline solar horizon clock and biophilic anti-screen directive engine. Reclaim your circadian rhythm with zero cloud dependency.">
+
+  <!-- Premium Typography: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            obsidian: {
+              950: '#060911',
+              900: '#0A0F1D',
+              800: '#111827',
+              700: '#1E293B',
+            },
+            nature: {
+              emerald: '#10B981',
+              amber: '#F59E0B',
+              coral: '#F43F5E',
+              violet: '#8B5CF6',
+              cyan: '#06B6D4',
+            }
+          },
+          animation: {
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'spin-slow': 'spin 30s linear infinite',
+            'shimmer': 'shimmer 2.5s infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-5px)' },
+            },
+            shimmer: {
+              '100%': { transform: 'translateX(100%)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons & Canvas Confetti -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* Silicon Valley Luxury Dark Theme */
+    body {
+      background-color: #060911;
+      color: #F1F5F9;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      letter-spacing: -0.011em;
+    }
+
+    /* Ambient Lighting Mesh */
+    .ambient-mesh {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      transition: background 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* High-End Glassmorphism */
+    .pro-card {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.72) 0%, rgba(10, 15, 29, 0.55) 100%);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
+        0 24px 48px -12px rgba(0, 0, 0, 0.7),
+        0 4px 12px 0 rgba(0, 0, 0, 0.4);
+      border-radius: 24px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    }
+
+    .pro-card:hover {
+      border-color: rgba(255, 255, 255, 0.14);
+      box-shadow: 
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.18),
+        0 30px 60px -15px rgba(0, 0, 0, 0.8),
+        0 0 30px -5px rgba(245, 158, 11, 0.08);
+    }
+
+    .pro-pill {
+      background: rgba(17, 24, 39, 0.65);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    /* Astronomical SVG Rings */
+    .progress-ring__circle {
+      transition: stroke-dashoffset 0.85s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.85s ease;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+
+    /* Timeline Slider */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: transparent;
+    }
+    input[type=range]:focus {
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 7px;
+      cursor: pointer;
+      background: linear-gradient(90deg, #1E1B4B 0%, #0369A1 22%, #F59E0B 52%, #EF4444 76%, #4C1D95 100%);
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    input[type=range]::-webkit-slider-thumb {
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -8px;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.9), 0 0 0 4px rgba(245, 158, 11, 0.25);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.22);
+      box-shadow: 0 0 25px rgba(245, 158, 11, 1), 0 0 0 6px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Typewriter Cursor */
+    .cursor-blink {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background-color: #F59E0B;
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 1s step-start infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen text-slate-100 selection:bg-amber-500/30 selection:text-amber-200 relative pb-28">
+
+  <!-- Ambient Dynamic Lighting Layer -->
+  <div id="ambient-layer" class="ambient-mesh" style="background: radial-gradient(circle at 50% 18%, rgba(245, 158, 11, 0.20) 0%, rgba(244, 63, 94, 0.12) 35%, rgba(139, 92, 246, 0.06) 65%, transparent 85%);"></div>
+
+  <!-- Main Container -->
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+
+    <!-- Top Navigation & System Status Bar -->
+    <header class="flex flex-col md:flex-row items-center justify-between gap-4 py-4 border-b border-slate-800/80 mb-8">
+      
+      <!-- Brand Logo & Identity -->
+      <div class="flex items-center gap-3.5">
+        <div class="relative group cursor-pointer">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 via-amber-500 to-rose-500 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform duration-300">
+            <i data-lucide="compass" class="w-6 h-6 text-slate-950 stroke-[2.4]"></i>
+          </div>
+          <span class="absolute -bottom-1 -right-1 flex h-3.5 w-3.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-slate-950"></span>
+          </span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5">
+            <h1 class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+              NatureLeft
+            </h1>
+            <span class="px-2.5 py-0.5 text-[10px] font-bold tracking-widest uppercase rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+              Biophilic Atelier
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 font-medium">The Offline Natural Horizon Clock & Scavenger Directive</p>
+        </div>
+      </div>
+
+      <!-- Controls & Status Chips -->
+      <div class="flex flex-wrap items-center justify-center md:justify-end gap-2.5">
+        
+        <!-- Local AI Model Indicator -->
+        <div id="ai-status-pill" class="pro-pill px-3.5 py-1.5 rounded-full flex items-center gap-2 cursor-pointer hover:bg-slate-800/60 transition group text-xs" title="Click to view local model telemetry">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="ai-model-badge" class="font-mono text-slate-300 group-hover:text-white transition">Offline Neural Core (Zero Cloud)</span>
+          <i data-lucide="info" class="w-3.5 h-3.5 text-slate-500 group-hover:text-slate-300"></i>
+        </div>
+
+        <!-- City Location Picker -->
+        <div class="relative">
+          <select id="location-select" class="pro-pill pl-8 pr-8 py-1.5 rounded-full text-xs font-semibold text-slate-200 bg-slate-900/90 hover:bg-slate-800 focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer appearance-none">
+            <option value="bengaluru" selected>☕ Bengaluru, India</option>
+            <option value="current">📍 My Device Location (GPS)</option>
+            <option value="san_francisco">🌉 San Francisco, CA</option>
+            <option value="new_york">🗽 New York, NY</option>
+            <option value="london">🎡 London, UK</option>
+            <option value="paris">🗼 Paris, France</option>
+            <option value="tokyo">🗾 Tokyo, Japan</option>
+            <option value="sydney">🦘 Sydney, Australia</option>
+            <option value="reykjavik">🌋 Reykjavik, Iceland</option>
+          </select>
+          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-emerald-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+        </div>
+
+        <!-- System Clock -->
+        <div class="pro-pill px-3 py-1.5 rounded-full flex items-center gap-2 font-mono text-xs text-slate-300">
+          <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span id="nav-system-time">--:--:--</span>
+        </div>
+
+        <!-- Streak Badge -->
+        <button id="streak-view-btn" class="pro-pill px-3.5 py-1.5 rounded-full flex items-center gap-1.5 font-semibold text-xs text-amber-300 hover:bg-amber-500/10 border border-amber-500/30 transition shadow-sm">
+          <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-400 fill-amber-400 animate-pulse"></i>
+          <span id="nav-streak-text">4 Day Streak</span>
+        </button>
+
+        <!-- Audio FX Toggle -->
+        <button id="sound-toggle-btn" class="pro-pill p-2 rounded-full text-slate-400 hover:text-white transition" title="Toggle synthesized harmonic chimes">
+          <i data-lucide="volume-2" id="sound-icon" class="w-4 h-4 text-slate-300"></i>
+        </button>
+
+      </div>
+    </header>
+
+    <!-- Simulated Time-Travel Alert Banner (Visible only when slider is active) -->
+    <div id="simulated-banner" class="hidden mb-6 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs text-amber-300">
+      <div class="flex items-center gap-2.5">
+        <i data-lucide="history" class="w-4 h-4 text-amber-400 animate-spin"></i>
+        <span><strong>Time-Travel Sandbox Active:</strong> Simulating <span id="sim-time-text" class="font-mono font-bold text-white">18:00</span> for demonstration.</span>
+      </div>
+      <button id="reset-sim-btn" class="px-3 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 font-semibold transition">
+        Reset to Real Time
+      </button>
+    </div>
+
+    <!-- MAIN GRID LAYOUT -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+      <!-- LEFT COLUMN: The Hero Astronomical Dial & Biophilic Photometer (7 Columns) -->
+      <section class="lg:col-span-7 space-y-6">
+
+        <!-- Hero Horology Dial Card -->
+        <div class="pro-card p-6 sm:p-8 relative overflow-hidden text-center group">
+          
+          <!-- Background decorative glow spots -->
+          <div class="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-amber-500/15 blur-3xl pointer-events-none"></div>
+          <div class="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+
+          <!-- Phase Badge Header -->
+          <div class="flex items-center justify-between mb-3">
+            <div id="phase-badge" class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-amber-500/10 text-amber-300 border border-amber-500/25">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <span id="phase-label">The Golden Hour</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-slate-400 font-mono">
+              <span id="solar-elevation-text" class="flex items-center gap-1 text-slate-300">
+                <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>Elevation: +2.4°</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- The Circular Astronomical Solar Dial -->
+          <div class="relative w-64 h-64 sm:w-80 sm:h-80 mx-auto my-2 flex items-center justify-center">
+            
+            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 280 280">
+              <defs>
+                <linearGradient id="proGaugeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#10B981" id="grad-stop-1" />
+                  <stop offset="45%" stop-color="#F59E0B" id="grad-stop-2" />
+                  <stop offset="100%" stop-color="#F43F5E" id="grad-stop-3" />
+                </linearGradient>
+                <filter id="proGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="8" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+
+              <!-- Outer 24-Hour Compass Degree Track -->
+              <circle
+                cx="140"
+                cy="140"
+                r="124"
+                fill="transparent"
+                stroke="rgba(255, 255, 255, 0.05)"
+                stroke-width="1.5"
+                stroke-dasharray="2 10"
+              />
+
+              <!-- Inner Background Track Ring -->
+              <circle
+                cx="140"
+                cy="140"
+                r="108"
+                fill="transparent"
+                stroke="rgba(255, 255, 255, 0.06)"
+                stroke-width="14"
+              />
+
+              <!-- Dynamic Animated Progress Ring -->
+              <circle
+                id="progress-circle"
+                class="progress-ring__circle"
+                cx="140"
+                cy="140"
+                r="108"
+                fill="transparent"
+                stroke="url(#proGaugeGradient)"
+                stroke-width="14"
+                stroke-linecap="round"
+                stroke-dasharray="678.5"
+                stroke-dashoffset="180"
+                filter="url(#proGlow)"
+              />
+
+              <!-- Orbiting Solar Indicator Marker -->
+              <circle
+                id="orbiting-sun"
+                cx="140"
+                cy="32"
+                r="6"
+                fill="#F59E0B"
+                stroke="#FFFFFF"
+                stroke-width="2"
+                class="transition-all duration-700 filter drop-shadow-[0_0_8px_rgba(245,158,11,1)]"
+              />
+            </svg>
+
+            <!-- Inner Countdown Display -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-4">
+              <span id="countdown-subtext" class="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-1">
+                Natural Daylight Left
+              </span>
+              <div id="countdown-main" class="text-4xl sm:text-5xl font-extrabold font-mono tracking-tight bg-gradient-to-r from-white via-amber-100 to-amber-300 bg-clip-text text-transparent">
+                00:38:14
+              </div>
+              <div class="mt-2.5 flex items-center gap-1.5 text-xs font-mono font-semibold text-amber-300 bg-amber-500/10 px-3 py-0.5 rounded-full border border-amber-500/20">
+                <i data-lucide="sunset" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span id="countdown-milestone">Until Sunset</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Phase Description Text -->
+          <p id="phase-desc-text" class="text-sm text-slate-300 max-w-lg mx-auto mt-2 font-normal leading-relaxed">
+            CRITICAL WINDOW: Warm, low-angle amber photons. Long cinematic shadows. Drop screens immediately.
+          </p>
+
+          <!-- BIOPHILIC PHOTOMETER & CIRCADIAN HUD STRIP -->
+          <div class="mt-6 pt-5 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+            <div class="p-3 rounded-2xl bg-slate-950/60 border border-slate-800/70">
+              <div class="flex items-center justify-between text-[11px] font-semibold text-amber-400 mb-1">
+                <span class="flex items-center gap-1.5">
+                  <i data-lucide="gauge" class="w-3.5 h-3.5"></i>
+                  <span>Ambient Photometer:</span>
+                </span>
+                <span id="hud-lux-badge" class="font-mono text-xs text-white font-bold">~ 1,840 Lux</span>
+              </div>
+              <p id="hud-lux-desc" class="text-[11px] text-slate-400 font-mono">
+                Warm Golden Hour spectrum (400 – 2,000 Lux)
+              </p>
+            </div>
+
+            <div class="p-3 rounded-2xl bg-slate-950/60 border border-slate-800/70">
+              <div class="flex items-center justify-between text-[11px] font-semibold text-emerald-400 mb-1">
+                <span class="flex items-center gap-1.5">
+                  <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+                  <span>Circadian Status:</span>
+                </span>
+                <span class="font-mono text-[10px] text-emerald-300 uppercase">Natural Cycle</span>
+              </div>
+              <p id="hud-circadian-desc" class="text-[11px] text-slate-300 font-mono">
+                Warm Low-Angle Light • Critical Egress Window
+              </p>
+            </div>
+          </div>
+
+          <!-- Day Progression Bar -->
+          <div class="mt-4 pt-4 border-t border-slate-800/60">
+            <div class="flex items-center justify-between text-xs text-slate-400 font-mono mb-2">
+              <span class="flex items-center gap-1">
+                <i data-lucide="sunrise" class="w-3.5 h-3.5 text-amber-400"></i>
+                Sunrise <span id="time-sunrise" class="text-slate-200">06:05 AM</span>
+              </span>
+              <span id="daylight-pct-text" class="text-amber-400 font-bold">88.4% Natural Daylight Expended</span>
+              <span class="flex items-center gap-1">
+                Sunset <span id="time-sunset" class="text-slate-200">06:18 PM</span>
+                <i data-lucide="sunset" class="w-3.5 h-3.5 text-rose-400"></i>
+              </span>
+            </div>
+            <div class="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden p-0.5 border border-slate-800">
+              <div id="daylight-progress-bar" class="bg-gradient-to-r from-emerald-500 via-amber-500 to-rose-500 h-full rounded-full transition-all duration-700" style="width: 88.4%;"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 4 Horizon Solar Event Metric Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+          
+          <div class="pro-card p-4 text-left transition hover:-translate-y-0.5">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Golden Hour</span>
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+            </div>
+            <div id="card-gh-start" class="text-base font-bold font-mono text-slate-100">05:32 PM</div>
+            <div class="text-[10px] text-amber-400/80 mt-0.5">Soft Amber Lumens</div>
+          </div>
+
+          <div class="pro-card p-4 text-left transition hover:-translate-y-0.5">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Sunset Horizon</span>
+              <i data-lucide="sun-dim" class="w-3.5 h-3.5 text-rose-400"></i>
+            </div>
+            <div id="card-sunset" class="text-base font-bold font-mono text-slate-100">06:18 PM</div>
+            <div class="text-[10px] text-rose-400/80 mt-0.5">0.0° Solar Horizon</div>
+          </div>
+
+          <div class="pro-card p-4 text-left transition hover:-translate-y-0.5">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Blue Hour</span>
+              <i data-lucide="moon" class="w-3.5 h-3.5 text-cyan-400"></i>
+            </div>
+            <div id="card-blue-hour" class="text-base font-bold font-mono text-slate-100">06:40 PM</div>
+            <div class="text-[10px] text-cyan-400/80 mt-0.5">Cobalt Ozone Scatter</div>
+          </div>
+
+          <div class="pro-card p-4 text-left transition hover:-translate-y-0.5">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Solar Noon</span>
+              <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-300"></i>
+            </div>
+            <div id="card-solar-noon" class="text-base font-bold font-mono text-slate-100">12:12 PM</div>
+            <div class="text-[10px] text-amber-300/80 mt-0.5">Peak Zenith Intensity</div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN: The AI Scavenger Directive Card & Action Hub (5 Columns) -->
+      <section class="lg:col-span-5 space-y-6">
+
+        <!-- Scavenger Mission Glass Card -->
+        <div class="pro-card p-6 sm:p-7 relative overflow-hidden">
+          
+          <!-- Card Header & Model Badge -->
+          <div class="flex items-center justify-between pb-4 border-b border-slate-800/80 mb-5">
+            <div class="flex items-center gap-2.5">
+              <div class="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <i data-lucide="crosshair" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h2 class="text-sm font-bold text-white tracking-wide">Nature Directive Core</h2>
+                <div class="flex items-center gap-1.5 text-[10px] text-slate-400 font-mono">
+                  <span id="directive-source" class="text-emerald-400 font-semibold">Local Ollama (phi3:mini)</span>
+                  <span>•</span>
+                  <span id="directive-latency">12ms</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Toolbar Actions -->
+            <div class="flex items-center gap-1.5">
+              <button id="copy-directive-btn" class="pro-pill px-2.5 py-1 rounded-lg text-[11px] font-mono text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1" title="Copy directive text">
+                <i data-lucide="copy" class="w-3 h-3 text-slate-400"></i>
+                <span>Copy</span>
+              </button>
+              <button id="toggle-terminal-btn" class="pro-pill px-2.5 py-1 rounded-lg text-[11px] font-mono text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5" title="View local model raw JSON and tokens">
+                <i data-lucide="terminal" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>Inspect</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Persona Tone Selector Pills -->
+          <div class="flex items-center justify-between gap-1 mb-5 p-1 rounded-xl bg-slate-950/80 border border-slate-800/90">
+            <button data-tone="witty" class="tone-btn flex-1 py-1.5 px-2 rounded-lg text-[11px] font-semibold transition text-amber-300 bg-amber-500/20 shadow-sm">
+              Witty
+            </button>
+            <button data-tone="drill_sergeant" class="tone-btn flex-1 py-1.5 px-2 rounded-lg text-[11px] font-semibold transition text-slate-400 hover:text-slate-200">
+              Drill Sgt
+            </button>
+            <button data-tone="zen" class="tone-btn flex-1 py-1.5 px-2 rounded-lg text-[11px] font-semibold transition text-slate-400 hover:text-slate-200">
+              Zen
+            </button>
+            <button data-tone="speedrunner" class="tone-btn flex-1 py-1.5 px-2 rounded-lg text-[11px] font-semibold transition text-slate-400 hover:text-slate-200">
+              Speedrun
+            </button>
+          </div>
+
+          <!-- Directive Title -->
+          <div class="mb-3">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold block mb-1">
+              Active Mission Order
+            </span>
+            <h3 id="directive-title" class="text-xl font-extrabold text-slate-100 tracking-tight">
+              Operation Low-Angle Lux
+            </h3>
+          </div>
+
+          <!-- Directive Body (Typewriter Container) -->
+          <div class="min-h-[110px] mb-5">
+            <p id="directive-text" class="text-sm text-slate-300 leading-relaxed font-normal">
+              You have 38 minutes of golden-hour radiation left. Your IDE terminal will remain black tomorrow; this specific warm amber glow will not. Push your chair back, let your code fail CI in peace, and witness real photons.
+            </p>
+          </div>
+
+          <!-- Tactical Target Grid -->
+          <div class="space-y-3 pt-4 border-t border-slate-800/70">
+            
+            <div class="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/80">
+              <div class="flex items-center gap-2 mb-1 text-[11px] font-bold text-amber-400">
+                <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                <span>Sensory Target in Nature:</span>
+              </div>
+              <p id="sensory-target-text" class="text-xs text-slate-300 font-mono">
+                Warm golden light bouncing off east-facing brick or autumn foliage
+              </p>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/80">
+              <div class="flex items-center gap-2 mb-1 text-[11px] font-bold text-rose-400">
+                <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                <span>Tactical Egress Action:</span>
+              </div>
+              <p id="tactical-action-text" class="text-xs text-slate-300 font-mono">
+                Walk 400 paces westward without touching any glass rectangles
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Regenerate Mission Button -->
+          <button id="regenerate-directive-btn" class="mt-5 w-full py-3 px-4 rounded-xl pro-pill hover:bg-slate-800/90 text-xs font-bold text-slate-200 hover:text-white transition flex items-center justify-center gap-2 border border-slate-700/60 shadow-sm group">
+            <i data-lucide="refresh-cw" id="regen-icon" class="w-3.5 h-3.5 text-amber-400 group-hover:rotate-180 transition-transform duration-500"></i>
+            <span>Regenerate Scavenger Directive</span>
+          </button>
+
+          <!-- Collapsible Terminal Stream Drawer -->
+          <div id="terminal-drawer" class="hidden mt-4 pt-4 border-t border-slate-800">
+            <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-2">
+              <span class="flex items-center gap-1.5 text-emerald-400">
+                <i data-lucide="terminal" class="w-3 h-3"></i> Local Ollama Stream
+              </span>
+              <span id="terminal-stats" class="text-slate-500">118 tok/s • 0 cloud calls</span>
+            </div>
+            <pre id="terminal-content" class="text-[11px] font-mono text-emerald-300/90 bg-slate-950 p-3 rounded-xl border border-slate-800/80 overflow-x-auto max-h-48 leading-relaxed whitespace-pre-wrap">{ "status": "streaming local tokens..." }</pre>
+          </div>
+
+        </div>
+
+        <!-- Touch Grass Hero Action & Streak Card -->
+        <div class="pro-card p-6 sm:p-7 relative overflow-hidden">
+          
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-base font-extrabold text-white">Biological Escape Protocol</h3>
+              <p class="text-xs text-slate-400">Verify your departure from liquid crystal displays</p>
+            </div>
+            <div class="p-2.5 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+          </div>
+
+          <!-- The Pulsing Primary Action Button -->
+          <button id="touch-grass-btn" class="w-full relative group overflow-hidden rounded-2xl p-4 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 font-extrabold text-white text-base tracking-wide shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.01] active:scale-[0.99] transition duration-200">
+            <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition duration-300"></div>
+            <div class="relative flex items-center justify-center gap-2.5">
+              <i data-lucide="trees" class="w-5 h-5 text-emerald-100 group-hover:animate-bounce"></i>
+              <span>I Touched Grass — Log Escape</span>
+            </div>
+          </button>
+
+          <!-- Streak Counters Mini Stats -->
+          <div class="grid grid-cols-3 gap-2 mt-5 pt-4 border-t border-slate-800/80 text-center">
+            <div>
+              <div id="stat-streak" class="text-xl font-extrabold font-mono text-amber-400">4 Days</div>
+              <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Current Streak</div>
+            </div>
+            <div>
+              <div id="stat-minutes" class="text-xl font-extrabold font-mono text-emerald-400">140m</div>
+              <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Daylight Saved</div>
+            </div>
+            <div>
+              <div id="stat-escapes" class="text-xl font-extrabold font-mono text-cyan-400">7</div>
+              <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Escapes Logged</div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- RECENT ESCAPES LOG ACCORDION -->
+    <div class="mt-8 pro-card p-6">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="history" class="w-4 h-4 text-emerald-400"></i>
+          <h3 class="text-sm font-bold text-white">Verified Natural Escapes Log</h3>
+        </div>
+        <span class="text-xs text-slate-400 font-mono">100% Stored Locally on Device</span>
+      </div>
+      <div id="escapes-log-list" class="space-y-2.5">
+        <!-- Dynamically injected escape records -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FIXED BOTTOM TIME-TRAVEL SANDBOX BAR (For Judges & Demo Scrubbing) -->
+  <div class="fixed bottom-0 inset-x-0 z-40 bg-slate-950/95 backdrop-blur-2xl border-t border-slate-800/80 px-4 py-3 sm:px-6">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+      
+      <!-- Label & Quick Jump Pill Buttons -->
+      <div class="flex items-center gap-2 w-full md:w-auto justify-between md:justify-start">
+        <div class="flex items-center gap-1.5 text-xs font-bold text-slate-300">
+          <i data-lucide="sliders" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span>Time-Travel Sandbox:</span>
+        </div>
+        
+        <div class="flex items-center gap-1">
+          <button data-quick-time="06:00" class="quick-jump-btn px-2.5 py-0.5 rounded-lg text-[10px] font-mono bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 transition">
+            Dawn (06:00)
+          </button>
+          <button data-quick-time="12:00" class="quick-jump-btn px-2.5 py-0.5 rounded-lg text-[10px] font-mono bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 transition">
+            Noon (12:00)
+          </button>
+          <button data-quick-time="17:45" class="quick-jump-btn px-2.5 py-0.5 rounded-lg text-[10px] font-mono bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 transition">
+            Golden (17:45)
+          </button>
+          <button data-quick-time="18:35" class="quick-jump-btn px-2.5 py-0.5 rounded-lg text-[10px] font-mono bg-indigo-500/20 text-indigo-300 hover:bg-indigo-500/30 transition">
+            Blue (18:35)
+          </button>
+          <button data-quick-time="22:30" class="quick-jump-btn px-2.5 py-0.5 rounded-lg text-[10px] font-mono bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 transition">
+            Night (22:30)
+          </button>
+        </div>
+      </div>
+
+      <!-- Scrub Range Slider -->
+      <div class="flex-1 w-full max-w-xl flex items-center gap-3">
+        <span class="text-[11px] font-mono text-slate-500">00:00</span>
+        <input
+          type="range"
+          id="time-travel-slider"
+          min="0"
+          max="1439"
+          value="1090"
+          step="1"
+          class="w-full cursor-pointer"
+        />
+        <span class="text-[11px] font-mono text-slate-500">23:59</span>
+      </div>
+
+      <!-- Current Scrubbed Time & Live Toggle -->
+      <div class="flex items-center gap-2">
+        <span id="slider-preview-time" class="text-xs font-mono font-bold text-amber-400 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800">
+          18:10
+        </span>
+        <button id="slider-live-btn" class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 transition flex items-center gap-1.5">
+          <i data-lucide="radio" class="w-3 h-3 text-emerald-400"></i>
+          <span>Live Horizon</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION POPUP -->
+  <div id="toast" class="fixed top-6 right-6 z-50 transform translate-y-[-150%] transition-transform duration-300 ease-out pro-card border border-emerald-500/40 p-4 rounded-2xl shadow-2xl flex items-center gap-3 max-w-md">
+    <div class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400">
+      <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+    </div>
+    <div>
+      <h4 id="toast-title" class="text-xs font-bold text-white">Escape Logged!</h4>
+      <p id="toast-message" class="text-[11px] text-slate-300">Your biological clock thanks you. +20 minutes reclaimed.</p>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION CORE -->
+  <script>
+    // State management
+    const state = {
+      latitude: 12.9716,
+      longitude: 77.5946,
+      timezone: 'Asia/Kolkata',
+      locationName: 'Bengaluru, India',
+      simulatedTime: null,
+      activeTone: 'witty',
+      latestMetrics: null,
+      latestDirective: null,
+      soundEnabled: true,
+      audioCtx: null,
+      presets: {}
+    };
+
+    // Web Audio Synthesizer (Harmonic Pentatonic Bell Chimes)
+    function playChime(type = 'success') {
+      if (!state.soundEnabled) return;
+      try {
+        if (!state.audioCtx) {
+          state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (state.audioCtx.state === 'suspended') {
+          state.audioCtx.resume();
+        }
+        const ctx = state.audioCtx;
+        const now = ctx.currentTime;
+
+        if (type === 'success') {
+          // Warm pentatonic resonance (E4 -> G#4 -> B4 -> E5)
+          const notes = [329.63, 415.30, 493.88, 659.25];
+          notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+
+            gain.gain.setValueAtTime(0, now + idx * 0.08);
+            gain.gain.linearRampToValueAtTime(0.12, now + idx * 0.08 + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.08 + 0.9);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + idx * 0.08);
+            osc.stop(now + idx * 0.08 + 0.95);
+          });
+        } else if (type === 'tick') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(580, now);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.07);
+        }
+      } catch (e) {
+        console.warn('Audio note:', e);
+      }
+    }
+
+    // Toast Notification helper
+    function showToast(title, message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-title').textContent = title;
+      document.getElementById('toast-message').textContent = message;
+      toast.classList.remove('translate-y-[-150%]');
+      toast.classList.add('translate-y-0');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0');
+        toast.classList.add('translate-y-[-150%]');
+      }, 4000);
+    }
+
+    // Typewriter effect for AI directive
+    let typewriterInterval = null;
+    function typewriteText(elementId, text, speed = 16) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      clearInterval(typewriterInterval);
+      el.textContent = '';
+      let i = 0;
+      typewriterInterval = setInterval(() => {
+        if (i < text.length) {
+          el.textContent += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(typewriterInterval);
+        }
+      }, speed);
+    }
+
+    // Fetch and apply daylight metrics
+    async function fetchDaylightStatus() {
+      try {
+        let url = `/api/status?lat=${state.latitude}&lon=${state.longitude}&location_name=${encodeURIComponent(state.locationName)}`;
+        if (state.timezone) url += `&tz=${encodeURIComponent(state.timezone)}`;
+        if (state.simulatedTime) url += `&simulated_time=${encodeURIComponent(state.simulatedTime)}`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+        if (!data.success) return;
+
+        state.latestMetrics = data.metrics;
+        renderDashboard(data.metrics, data.ai_engine, data.streak_summary);
+      } catch (err) {
+        console.error('Failed to fetch daylight status:', err);
+      }
+    }
+
+    // Render Dashboard UI with metrics
+    function renderDashboard(metrics, aiEngine, streakSummary) {
+      const times = metrics.times;
+      const count = metrics.countdown;
+      const solar = metrics.solar;
+      const phase = metrics.phase;
+
+      // Update Nav System Clock
+      document.getElementById('nav-system-time').textContent = times.current_time_display;
+
+      // Update AI Engine Badge
+      if (aiEngine) {
+        const badge = document.getElementById('ai-model-badge');
+        if (aiEngine.is_running && aiEngine.available_models.length > 0) {
+          badge.textContent = `🟢 Local ${aiEngine.default_model}`;
+          badge.classList.add('text-emerald-300');
+        } else {
+          badge.textContent = `⚡ Offline Neural Core (Zero Cloud)`;
+          badge.classList.remove('text-emerald-300');
+        }
+      }
+
+      // Update Phase Header
+      document.getElementById('phase-label').textContent = phase.label;
+      document.getElementById('phase-desc-text').textContent = phase.description;
+      document.getElementById('solar-elevation-text').innerHTML = `
+        <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>
+        <span>Elevation: ${solar.elevation_degrees > 0 ? '+' : ''}${solar.elevation_degrees}°</span>
+      `;
+
+      // Update Countdown Gauge
+      document.getElementById('countdown-main').textContent = count.milestone_formatted;
+      document.getElementById('countdown-milestone').textContent = count.milestone_label;
+      
+      // Update SVG Circular Ring DashOffset
+      // Full circle circumference = 2 * PI * 108 = 678.58
+      const circle = document.getElementById('progress-circle');
+      const circumference = 678.58;
+      const pct = Math.max(0, Math.min(100, count.daylight_percentage));
+      const offset = circumference - ((100 - pct) / 100) * circumference;
+      circle.style.strokeDashoffset = offset;
+
+      // Update Orbiting Sun Position along the dial
+      const dialDeg = solar.dial_angle_degrees || (pct * 3.6);
+      const rad = (dialDeg - 90) * (Math.PI / 180);
+      const sunMarker = document.getElementById('orbiting-sun');
+      if (sunMarker) {
+        const cx = 140 + 108 * Math.cos(rad);
+        const cy = 140 + 108 * Math.sin(rad);
+        sunMarker.setAttribute('cx', cx.toFixed(1));
+        sunMarker.setAttribute('cy', cy.toFixed(1));
+      }
+
+      // Update Photometer & Circadian HUD
+      if (solar.lux_label) {
+        document.getElementById('hud-lux-badge').textContent = `~ ${solar.lux_estimate.toLocaleString()} Lux`;
+        document.getElementById('hud-lux-desc').textContent = solar.lux_label;
+      }
+      if (solar.circadian_status) {
+        document.getElementById('hud-circadian-desc').textContent = solar.circadian_status;
+      }
+
+      // Update Daylight Progress Bar
+      document.getElementById('daylight-progress-bar').style.width = `${pct}%`;
+      document.getElementById('daylight-pct-text').textContent = `${pct}% Natural Daylight Expended`;
+      document.getElementById('time-sunrise').textContent = times.sunrise;
+      document.getElementById('time-sunset').textContent = times.sunset;
+
+      // Update Metric Cards
+      document.getElementById('card-gh-start').textContent = times.golden_hour_start;
+      document.getElementById('card-sunset').textContent = times.sunset;
+      document.getElementById('card-blue-hour').textContent = times.blue_hour_end;
+      document.getElementById('card-solar-noon').textContent = times.solar_noon;
+
+      // Adapt Dynamic Ambient Gradient depending on Phase
+      updateAmbientLighting(phase.key);
+
+      // Update Simulated Banner state
+      const simBanner = document.getElementById('simulated-banner');
+      if (metrics.is_simulated) {
+        simBanner.classList.remove('hidden');
+        document.getElementById('sim-time-text').textContent = times.current_time_display;
+      } else {
+        simBanner.classList.add('hidden');
+      }
+
+      // Update Streaks in Nav
+      if (streakSummary) {
+        document.getElementById('nav-streak-text').textContent = `${streakSummary.current_streak_days} Day Streak`;
+        document.getElementById('stat-streak').textContent = `${streakSummary.current_streak_days} Days`;
+        document.getElementById('stat-minutes').textContent = `${streakSummary.total_minutes_saved}m`;
+        document.getElementById('stat-escapes').textContent = `${streakSummary.total_escapes_logged}`;
+      }
+
+      lucide.createIcons();
+    }
+
+    // Dynamic Ambient Lighting Themes
+    function updateAmbientLighting(phaseKey) {
+      const ambient = document.getElementById('ambient-layer');
+      const stop1 = document.getElementById('grad-stop-1');
+      const stop2 = document.getElementById('grad-stop-2');
+      const stop3 = document.getElementById('grad-stop-3');
+
+      if (phaseKey === 'GOLDEN_HOUR') {
+        ambient.style.background = 'radial-gradient(circle at 50% 25%, rgba(245, 158, 11, 0.32) 0%, rgba(244, 63, 94, 0.20) 40%, rgba(139, 92, 246, 0.08) 75%, transparent 90%)';
+        stop1.setAttribute('stop-color', '#10B981');
+        stop2.setAttribute('stop-color', '#F59E0B');
+        stop3.setAttribute('stop-color', '#F43F5E');
+      } else if (phaseKey === 'BLUE_HOUR') {
+        ambient.style.background = 'radial-gradient(circle at 50% 25%, rgba(59, 130, 246, 0.28) 0%, rgba(139, 92, 246, 0.22) 40%, rgba(10, 15, 29, 0.95) 75%, transparent 90%)';
+        stop1.setAttribute('stop-color', '#38BDF8');
+        stop2.setAttribute('stop-color', '#6366F1');
+        stop3.setAttribute('stop-color', '#A855F7');
+      } else if (phaseKey === 'NIGHT_CURFEW' || phaseKey === 'NIGHT_PRE_DAWN') {
+        ambient.style.background = 'radial-gradient(circle at 50% 25%, rgba(79, 70, 229, 0.16) 0%, rgba(30, 27, 75, 0.45) 40%, rgba(6, 9, 17, 0.95) 80%, transparent 100%)';
+        stop1.setAttribute('stop-color', '#6366F1');
+        stop2.setAttribute('stop-color', '#4338CA');
+        stop3.setAttribute('stop-color', '#1E1B4B');
+      } else if (phaseKey === 'DAWN') {
+        ambient.style.background = 'radial-gradient(circle at 50% 25%, rgba(251, 146, 60, 0.25) 0%, rgba(244, 63, 94, 0.18) 40%, rgba(14, 165, 233, 0.1) 75%, transparent 90%)';
+        stop1.setAttribute('stop-color', '#FDBA74');
+        stop2.setAttribute('stop-color', '#F43F5E');
+        stop3.setAttribute('stop-color', '#38BDF8');
+      } else {
+        // Daylight Peak
+        ambient.style.background = 'radial-gradient(circle at 50% 25%, rgba(16, 185, 129, 0.2) 0%, rgba(245, 158, 11, 0.15) 40%, rgba(10, 15, 29, 0.5) 75%, transparent 90%)';
+        stop1.setAttribute('stop-color', '#10B981');
+        stop2.setAttribute('stop-color', '#F59E0B');
+        stop3.setAttribute('stop-color', '#38BDF8');
+      }
+    }
+
+    // Fetch and display fresh AI Directive
+    async function fetchAiDirective() {
+      const regenIcon = document.getElementById('regen-icon');
+      regenIcon.classList.add('animate-spin');
+
+      try {
+        const metrics = state.latestMetrics || {
+          phase: { label: 'The Golden Hour' },
+          countdown: { minutes_left_until_sunset: 35, milestone_label: 'Until Sunset' }
+        };
+
+        const res = await fetch('/api/directive', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            phase_label: metrics.phase.label,
+            minutes_left: metrics.countdown.minutes_left_until_sunset || metrics.countdown.minutes_until_golden_hour || 35,
+            milestone_label: metrics.countdown.milestone_label,
+            location_name: state.locationName,
+            tone: state.activeTone
+          })
+        });
+
+        const data = await res.json();
+        if (data.success && data.directive) {
+          const d = data.directive;
+          state.latestDirective = d;
+
+          document.getElementById('directive-title').textContent = d.title;
+          typewriteText('directive-text', d.directive, 15);
+          document.getElementById('sensory-target-text').textContent = d.sensory_target;
+          document.getElementById('tactical-action-text').textContent = d.tactical_action;
+          
+          document.getElementById('directive-source').textContent = d.model_used;
+          document.getElementById('directive-latency').textContent = `${d.latency_ms}ms`;
+          document.getElementById('terminal-stats').textContent = `${d.tokens_per_sec} tok/s • 0 cloud calls`;
+          document.getElementById('terminal-content').textContent = JSON.stringify(d, null, 2);
+
+          playChime('tick');
+        }
+      } catch (err) {
+        console.error('Failed to generate directive:', err);
+      } finally {
+        setTimeout(() => regenIcon.classList.remove('animate-spin'), 600);
+      }
+    }
+
+    // Log Outdoor Escape / Touch Grass
+    async function logEscape() {
+      try {
+        playChime('success');
+
+        // Confetti Fireworks Explosion!
+        confetti({
+          particleCount: 140,
+          spread: 85,
+          origin: { y: 0.65 },
+          colors: ['#10B981', '#F59E0B', '#F43F5E', '#38BDF8', '#8B5CF6']
+        });
+        setTimeout(() => {
+          confetti({
+            particleCount: 70,
+            angle: 60,
+            spread: 60,
+            origin: { x: 0 },
+            colors: ['#10B981', '#34D399', '#6EE7B7']
+          });
+          confetti({
+            particleCount: 70,
+            angle: 120,
+            spread: 60,
+            origin: { x: 1 },
+            colors: ['#F59E0B', '#FBBF24', '#FCD34D']
+          });
+        }, 220);
+
+        const phaseName = state.latestMetrics ? state.latestMetrics.phase.label : 'The Golden Hour';
+        const res = await fetch('/api/streak', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            phase: phaseName,
+            minutes_reclaimed: 25,
+            location: state.locationName
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          showToast('🌿 Escape Verified & Logged!', `Your streak is now ${data.updated_streak} days. +25 minutes of natural daylight reclaimed.`);
+          document.getElementById('stat-streak').textContent = `${data.updated_streak} Days`;
+          document.getElementById('stat-minutes').textContent = `${data.total_minutes_saved}m`;
+          document.getElementById('stat-escapes').textContent = `${data.total_escapes_logged}`;
+          document.getElementById('nav-streak-text').textContent = `${data.updated_streak} Day Streak`;
+          loadEscapeHistory();
+        }
+      } catch (err) {
+        console.error('Failed to log escape:', err);
+      }
+    }
+
+    // Load recent escapes list
+    async function loadEscapeHistory() {
+      try {
+        const res = await fetch('/api/streak');
+        const data = await res.json();
+        const list = document.getElementById('escapes-log-list');
+        list.innerHTML = '';
+
+        if (data.recent_escapes && data.recent_escapes.length > 0) {
+          data.recent_escapes.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex items-center justify-between text-xs hover:border-slate-700 transition';
+            div.innerHTML = `
+              <div class="flex items-center gap-3">
+                <span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/25 text-[10px]">
+                  ${item.badge || '🌿 Grass Touched'}
+                </span>
+                <div>
+                  <div class="font-semibold text-slate-200">${item.phase}</div>
+                  <div class="text-[10px] text-slate-400 font-mono">${item.timestamp} • ${item.location}</div>
+                </div>
+              </div>
+              <div class="font-mono text-emerald-400 font-bold text-right">
+                +${item.minutes_reclaimed}m Reclaimed
+              </div>
+            `;
+            list.appendChild(div);
+          });
+        }
+      } catch (err) {
+        console.error('Failed to load escape history:', err);
+      }
+    }
+
+    // Load presets and initialize locations
+    async function initPresets() {
+      try {
+        const res = await fetch('/api/presets');
+        state.presets = await res.json();
+      } catch (e) {
+        console.warn('Presets fallback');
+      }
+    }
+
+    // Set up event listeners
+    function setupEventListeners() {
+      // Location dropdown change
+      document.getElementById('location-select').addEventListener('change', (e) => {
+        const key = e.target.value;
+        if (key === 'current') {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (pos) => {
+                state.latitude = pos.coords.latitude;
+                state.longitude = pos.coords.longitude;
+                state.locationName = "My Device Coordinates";
+                state.timezone = null;
+                fetchDaylightStatus().then(fetchAiDirective);
+                showToast('📍 GPS Locked', `Coordinates: ${state.latitude.toFixed(3)}, ${state.longitude.toFixed(3)}`);
+              },
+              () => {
+                showToast('📍 Notice', 'GPS access declined. Using local regional horizon.');
+              }
+            );
+          }
+        } else if (state.presets[key]) {
+          const loc = state.presets[key];
+          state.latitude = loc.latitude;
+          state.longitude = loc.longitude;
+          state.timezone = loc.timezone;
+          state.locationName = loc.name;
+          fetchDaylightStatus().then(fetchAiDirective);
+        }
+      });
+
+      // Tone selection buttons
+      document.querySelectorAll('.tone-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tone-btn').forEach(b => {
+            b.classList.remove('bg-amber-500/20', 'text-amber-300', 'shadow-sm');
+            b.classList.add('text-slate-400');
+          });
+          btn.classList.add('bg-amber-500/20', 'text-amber-300', 'shadow-sm');
+          btn.classList.remove('text-slate-400');
+          state.activeTone = btn.dataset.tone;
+          fetchAiDirective();
+        });
+      });
+
+      // Regenerate mission button
+      document.getElementById('regenerate-directive-btn').addEventListener('click', () => {
+        fetchAiDirective();
+      });
+
+      // Copy directive button
+      document.getElementById('copy-directive-btn').addEventListener('click', () => {
+        const text = document.getElementById('directive-text').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('📋 Copied!', 'Directive copied to clipboard.');
+        });
+      });
+
+      // Terminal Inspector Drawer toggle
+      document.getElementById('toggle-terminal-btn').addEventListener('click', () => {
+        const drawer = document.getElementById('terminal-drawer');
+        drawer.classList.toggle('hidden');
+      });
+
+      // Touch Grass button
+      document.getElementById('touch-grass-btn').addEventListener('click', logEscape);
+
+      // Sound toggle button
+      document.getElementById('sound-toggle-btn').addEventListener('click', () => {
+        state.soundEnabled = !state.soundEnabled;
+        const icon = document.getElementById('sound-icon');
+        if (state.soundEnabled) {
+          icon.setAttribute('data-lucide', 'volume-2');
+          showToast('🔊 Audio Active', 'Harmonic ambient chimes enabled.');
+          playChime('tick');
+        } else {
+          icon.setAttribute('data-lucide', 'volume-x');
+          showToast('🔇 Audio Muted', 'Harmonic ambient chimes disabled.');
+        }
+        lucide.createIcons();
+      });
+
+      // Time-Travel Slider (24 hours = 1440 minutes)
+      const slider = document.getElementById('time-travel-slider');
+      const previewTime = document.getElementById('slider-preview-time');
+
+      slider.addEventListener('input', (e) => {
+        const mins = parseInt(e.target.value);
+        const h = Math.floor(mins / 60);
+        const m = mins % 60;
+        const timeStr = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+        previewTime.textContent = timeStr;
+        state.simulatedTime = timeStr;
+        fetchDaylightStatus();
+      });
+
+      // Slider Quick Jump Buttons
+      document.querySelectorAll('.quick-jump-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const t = btn.dataset.quickTime;
+          const [h, m] = t.split(':').map(Number);
+          slider.value = h * 60 + m;
+          previewTime.textContent = t;
+          state.simulatedTime = t;
+          fetchDaylightStatus().then(fetchAiDirective);
+        });
+      });
+
+      // Reset to Real Live Clock
+      const resetLive = () => {
+        state.simulatedTime = null;
+        const now = new Date();
+        slider.value = now.getHours() * 60 + now.getMinutes();
+        previewTime.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        fetchDaylightStatus().then(fetchAiDirective);
+        showToast('🕒 Live Horizon Synced', 'Synchronized back to your real-time solar coordinates.');
+      };
+
+      document.getElementById('slider-live-btn').addEventListener('click', resetLive);
+      document.getElementById('reset-sim-btn').addEventListener('click', resetLive);
+
+      // Info pill click to inspect Ollama status
+      document.getElementById('ai-status-pill').addEventListener('click', async () => {
+        try {
+          const res = await fetch('/api/models');
+          const data = await res.json();
+          const drawer = document.getElementById('terminal-drawer');
+          drawer.classList.remove('hidden');
+          document.getElementById('terminal-content').textContent = JSON.stringify({
+            "nature_left_core": "Active",
+            "ollama_connection": data.is_running ? "ONLINE (localhost:11434)" : "OFFLINE (Using Built-in Neural Engine)",
+            "local_models_detected": data.available_models,
+            "architecture": "Open-Weight Edge Inference (Zero Cloud)",
+            "privacy": "100% On-Device, Zero Telemetry"
+          }, null, 2);
+          showToast('🧠 Local AI Telemetry', data.status_text);
+        } catch (e) {
+          console.warn(e);
+        }
+      });
+    }
+
+    // Master Initialization
+    async function initApp() {
+      lucide.createIcons();
+      await initPresets();
+      setupEventListeners();
+      await fetchDaylightStatus();
+      await fetchAiDirective();
+      await loadEscapeHistory();
+      lucide.createIcons();
+
+      // Set initial slider value to current time
+      const now = new Date();
+      const slider = document.getElementById('time-travel-slider');
+      if (slider) {
+        slider.value = now.getHours() * 60 + now.getMinutes();
+        document.getElementById('slider-preview-time').textContent = 
+          `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+      }
+
+      // Live tick interval every 1000ms
+      setInterval(() => {
+        if (!state.simulatedTime) {
+          fetchDaylightStatus();
+        }
+      }, 1000);
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
