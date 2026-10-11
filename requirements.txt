@@ -1,0 +1,7 @@
+fastapi>=0.110.0
+uvicorn>=0.28.0
+streamlit>=1.32.0
+astral>=3.2
+ollama>=0.1.7
+pydantic>=2.6.0
+tzlocal>=5.0
